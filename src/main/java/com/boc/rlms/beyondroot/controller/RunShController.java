@@ -51,7 +51,7 @@ public class RunShController {
             }
 
             if (!StringUtils.isEmpty(lines.toString())) {
-                logger.info(errorLines.toString());
+                logger.info(lines.toString());
                 return lines.toString();
             }
 
