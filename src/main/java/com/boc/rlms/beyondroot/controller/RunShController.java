@@ -24,17 +24,17 @@ public class RunShController {
      * @return
      */
     @CrossOrigin(origins = "http://localhost:8888")
-    @RequestMapping(value="/runsh",produces="text/plain;charset=UTF-8")
-    public String runSh(@RequestParam(value="cmd", defaultValue="ls -ltr /") String cmd) {
+    @RequestMapping(value = "/runsh", produces = "text/plain;charset=UTF-8")
+    public String runSh(@RequestParam(value = "cmd", defaultValue = "ls -ltr /") String cmd) {
         StringBuffer lines = new StringBuffer();
         StringBuffer errorLines = new StringBuffer();
 
-        if(cmd == null)
+        if (cmd == null)
             cmd = "ls -ltr /";
 
         //cmd = cmd.replace("@"," ");
 
-        logger.info("cmd to run: "+cmd);
+        logger.info("cmd to run: " + cmd);
 
         try {
             //Process process = Runtime.getRuntime().exec("java -jar ProcessJar.jar args1 agrs2 args3");
@@ -42,7 +42,7 @@ public class RunShController {
             InputStream is = process.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("gbk")));
 
-            BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream(),Charset.forName("gbk")));
+            BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream(), Charset.forName("gbk")));
 
             String line;
             while ((line = br.readLine()) != null) {
@@ -56,7 +56,6 @@ public class RunShController {
             }
 
             while ((line = stdError.readLine()) != null) {
-                //errorLines.append(new String(line.getBytes("GBK"),"GBK"));
                 errorLines.append(line);
                 lines.append("\n");
             }
@@ -71,10 +70,10 @@ public class RunShController {
 
             logger.info("exitCode: ", exitCode);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
             return e.getMessage();
         } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
             return e.getMessage();
         }
 
